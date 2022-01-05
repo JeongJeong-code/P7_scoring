@@ -34,6 +34,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
 import re
+from imblearn.over_sampling import SMOTE
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 path = r'C:\Users\nwenz\Desktop\P7_scoring\Projet+Mise+en+prod+-+home-credit-default-risk/'
@@ -330,6 +331,13 @@ def display_importances(feature_importance_df_):
 def main(debug = False):
     num_rows = 10000 if debug else None
     df = application_train_test(num_rows)
+    
+    smote_enn = SMOTE(random_state=0)
+    y = df.TARGET.copy()
+    X = df.drop(columns = 'TARGET')
+    
+    X_resampled, y_resampled = smote_enn.fit_resample(X, y)
+    df = pd.DataFrame(pd.concat([X,y],axis =1))
     with timer("Process bureau and bureau_balance"):
         bureau = bureau_and_balance(num_rows)
         print("Bureau df shape:", bureau.shape)
