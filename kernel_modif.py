@@ -25,19 +25,19 @@ Created on Tue Dec 28 17:25:53 2021
 import numpy as np
 import pandas as pd
 import gc
+import os
 import time
+import matplotlib as plt
 from contextlib import contextmanager
 from lightgbm import LGBMClassifier
 from sklearn.metrics import roc_auc_score, roc_curve
 from sklearn.model_selection import KFold, StratifiedKFold
-import matplotlib.pyplot as plt
-import seaborn as sns
 import warnings
 import re
-from imblearn.over_sampling import SMOTE
+import seaborn as sns
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
-path = r'C:\Users\nwenz\Desktop\P7_scoring\Projet+Mise+en+prod+-+home-credit-default-risk/'
+path = r'Projet+Mise+en+prod+-+home-credit-default-risk/'
 
 @contextmanager
 def timer(title):
@@ -331,13 +331,6 @@ def display_importances(feature_importance_df_):
 def main(debug = False):
     num_rows = 10000 if debug else None
     df = application_train_test(num_rows)
-    
-    smote_enn = SMOTE(random_state=0)
-    y = df.TARGET.copy()
-    X = df.drop(columns = 'TARGET')
-    
-    X_resampled, y_resampled = smote_enn.fit_resample(X, y)
-    df = pd.DataFrame(pd.concat([X,y],axis =1))
     with timer("Process bureau and bureau_balance"):
         bureau = bureau_and_balance(num_rows)
         print("Bureau df shape:", bureau.shape)
