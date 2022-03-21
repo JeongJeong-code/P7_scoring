@@ -8,14 +8,18 @@ import os
 import pandas as pd
 from joblib import dump, load
 from sklearn.linear_model import LogisticRegressionCV,LogisticRegression
+from flask import Flask,request
+
+port = int(os.environ.get('PORT', 5000))
+#app = Flask(__name__)
 
 
 
-
+#◙@app.route('/inference')
 def inference():   
 #    path =r'C:\Users\nwenz\Desktop\P7_scoring
-    test_df = pd.read_csv('df_test.csv')
-    train_df = pd.read_csv('df_train.csv',nrows = 10000)
+    test_df = pd.read_csv('df_test.csv',nrows=10)
+    train_df = pd.read_csv('df_train.csv',nrows = 1000)
 
     
     
@@ -47,4 +51,5 @@ def inference():
         
 
 if __name__ == '__main__':
+    #app.run(debug=True,host='0.0.0.0',port=port)
     inference()

@@ -13,4 +13,8 @@ COPY df_test.csv ./df_test.csv
 
 COPY train.py ./train.py
 COPY inference.py ./inference.py
-RUN python3 train.py
+COPY hello_world.py ./hello_world.py
+COPY Inference_svm.joblib ./Inference_svm.joblib
+
+ENTRYPOINT ["python3"]
+CMD ["inference.py"]
