@@ -1,0 +1,8 @@
+pandas
+fastapi
+numpy
+pydantic
+sklearn
+lime
+gunicorn
+uvicorn
